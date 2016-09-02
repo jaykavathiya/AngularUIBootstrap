@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="tabApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head 
+         content must come *after* these tags -->
+    
+    <title>Tab Set</title>    
+        <!-- Bootstrap -->
+<!-- build:css styles/main.css -->
+    <link href="bower_components/jquery/dist/jquery.min.js" rel="stylesheet">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- endbuild -->
+</head>
+<body>
+ <div class="container" ng-controller="RevController" ng-init="indextab=0">
+ <div class="row row-content">
+ <p style="padding:30px;"></p>
+ <div class="col-sm-offset-3 col-sm-6">    
+ <form name="reserveForm" class="tab-form-demo" novalidate>
+    <uib-tabset active="indextab">
+      <uib-tab index="0" heading="Step 1">
+       <!-- <ng-form name="reserveForm" ng-submit="submitInfo()" novalidate> -->
+            <div class="form-group"  ng-class="{ 'has-error' : reserveForm.firstname.$error.required && !reserveForm.firstname.$pristine }">
+               <label for="firstname">First Name</label>
+               <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter First Name" ng-model="user.fname" required/>
+                <span ng-show="reserveForm.firstname.$error.required && !reserveForm.firstname.$pristine" class="help-block">Your First name is required.</span>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : reserveForm.lastname.$error.required && !reserveForm.lastname.$pristine }">
+               <label for="lastname">Last Name</label>
+               <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name" ng-model="user.lname" required/>
+               <span ng-show="reserveForm.lastname.$error.required && !reserveForm.lastname.$pristine" class="help-block">Your Last name is required.</span>    
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : reserveForm.email.$error.required && !reserveForm.email.$pristine }">
+               <label>E-mail</label>
+               <input type="email" class="form-control" name="email" ng-model="user.email" required/>
+                <span ng-show="reserveForm.email.$error.required && !reserveForm.email.$pristine" class="help-block">Your email is required.</span>   
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : reserveForm.phone.$error.required && !reserveForm.phone.$pristine }">
+               <label>Phone</label>
+               <input type="tel" class="form-control" name="phone" ng-model="user.tel" required/>
+               <span ng-show="reserveForm.phone.$error.required && !reserveForm.phone.$pristine" class="help-block">Your Phone number is required.</span>           
+            </div>
+           <button type="submit" class="btn btn-primary" ng-disabled="reserveForm.$invalid" ng-click="nextpage(1)">Next</button>
+      </uib-tab>
+      <uib-tab index="1" heading="Step 2">
+          <div class="form-group">
+           <label for="location">Location</label>      
+          <select class="form-control" id="location" ng-model="user.location">
+                <option>Boston</option>
+                <option>NewYork</option>
+                <option>Chicago</option>
+                <option>San Francisco</option>
+         </select>
+          </div>
+          <div class="form-group">
+               <label for="departure">Date Departure</label>
+          <div class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.ddt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+          </div>      
+          <div class="form-group">
+         <label for="departure">Date Return</label>
+          <div class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.rdt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>      
+        </div> 
+         <button type="submit" class="btn btn-primary" ng-click="step2(2)">Next</button>        
+      </uib-tab>
+      <uib-tab index="2" heading="Step 3">
+          <h3 ng-repeat="result in results">
+              <a href="{{result.email}}"><strong>{{result.fname}}  {{result.lname}}</strong></a> will depart for {{result.location}} on {{result.ddt | date:'mediumDate'}} and return on {{result.rdt | date:'mediumDate'}}
+          </h3>
+      </uib-tab>
+    </uib-tabset>
+      
+ </form>  
+</div>      
+ <div class="col-sm-3"></div>
+      
+ </div>    
+</div>      
+  
+       
+    
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.2.js"></script>
+    <script src="app.js"></script>
+</body>    
